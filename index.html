@@ -338,37 +338,6 @@
             letter-spacing: 0.1rem;
         }
 
-        /* Zoom Controls with Icons */
-        .zoom-controls {
-            display: flex;
-            gap: 5px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 5px;
-            border-radius: 25px;
-            border: 1px solid var(--border-light);
-        }
-
-        .zoom-btn {
-            width: 35px;
-            height: 35px;
-            border: none;
-            background: transparent;
-            color: var(--text-gray);
-            cursor: pointer;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .zoom-btn:hover {
-            background: rgba(201, 169, 97, 0.2);
-            color: var(--accent-gold);
-            transform: scale(1.1);
-        }
-
         /* Book Content Area */
         .book-content {
             height: 80vh;
@@ -403,6 +372,7 @@
             overflow: hidden;
             background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
             transition: all 0.5s ease;
+            padding: 40px;
         }
 
         .page:first-child {
@@ -410,32 +380,67 @@
             box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
         }
 
-        .page.turning {
-            animation: pageTurn 0.8s ease-in-out;
+        /* Mock Page Content */
+        .mock-page {
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        @keyframes pageTurn {
-            0% { transform: rotateY(0deg); }
-            50% { transform: rotateY(-90deg); opacity: 0.5; }
-            100% { transform: rotateY(0deg); opacity: 1; }
+        .mock-page h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            letter-spacing: 0.2rem;
         }
 
-        .page canvas {
-            max-width: 90%;
-            max-height: 90%;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: zoom-in;
+        .mock-page p {
+            font-family: 'Montserrat', sans-serif;
+            color: #666;
+            line-height: 1.8;
+            max-width: 400px;
         }
 
-        .page canvas:hover {
+        /* PDF Upload Area */
+        .pdf-upload {
+            border: 2px dashed var(--accent-gold);
+            border-radius: 10px;
+            padding: 40px;
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(201, 169, 97, 0.05);
+        }
+
+        .pdf-upload:hover {
+            background: rgba(201, 169, 97, 0.1);
             transform: scale(1.02);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        .page canvas.zoomed {
-            transform: scale(var(--zoom-level));
-            cursor: zoom-out;
+        .pdf-upload input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
         }
 
         /* Navigation Bar */
@@ -506,57 +511,11 @@
             cursor: not-allowed;
         }
 
-        .nav-btn:disabled:hover {
-            transform: none;
-        }
-
-        .nav-btn:disabled::before {
-            display: none;
-        }
-
-        /* Fullscreen Mode */
-        .fullscreen-btn {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-light);
-            color: var(--text-gray);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .fullscreen-btn:hover {
-            background: rgba(201, 169, 97, 0.2);
-            color: var(--accent-gold);
-            transform: scale(1.1);
-        }
-
         /* Error State */
         .error-state {
             text-align: center;
             padding: 60px 20px;
             animation: fadeIn 1s ease;
-        }
-
-        .error-state h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            color: var(--accent-gold);
-            margin-bottom: 20px;
-            letter-spacing: 0.2rem;
-        }
-
-        .error-state p {
-            color: var(--text-gray);
-            font-weight: 300;
-            line-height: 1.8;
         }
 
         @keyframes fadeIn {
@@ -599,23 +558,6 @@
                 padding: 20px;
             }
         }
-
-        /* Smooth Page Transitions */
-        .page-transition-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-dark);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .page-transition-overlay.active {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
@@ -628,7 +570,7 @@
     <div class="grid-background"></div>
 
     <!-- Loading Screen -->
-    <div class="loading-screen" id="loading-screen">
+    <div class="loading-screen" id="loading-screen" style="display: none;">
         <div class="architect-loader"></div>
         <div class="loading-text">LOADING PORTFOLIO</div>
         <div class="progress-container">
@@ -644,38 +586,68 @@
     </header>
 
     <!-- Portfolio Container -->
-    <div class="portfolio-container" id="portfolio-container" style="display: none;">
+    <div class="portfolio-container" id="portfolio-container">
         <div class="book-viewer">
             <!-- Controls Bar -->
             <div class="controls-bar">
                 <div class="portfolio-title">PORTFOLIO</div>
                 <div class="control-group">
-                    <div class="page-indicator" id="page-indicator">PAGE 01 / 00</div>
-                    <div class="zoom-controls">
-                        <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">−</button>
-                        <button class="zoom-btn" onclick="resetZoom()" title="Reset">○</button>
-                        <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
-                    </div>
+                    <div class="page-indicator" id="page-indicator">DEMO MODE</div>
                 </div>
             </div>
 
             <!-- Book Content -->
             <div class="book-content opening" id="book-content">
-                <div class="page" id="left-page"></div>
-                <div class="page" id="right-page"></div>
-                <div class="page-transition-overlay" id="transition-overlay"></div>
+                <div class="page" id="left-page">
+                    <div class="mock-page">
+                        <h2>WELCOME</h2>
+                        <p>This is a preview of your portfolio viewer interface.</p>
+                        
+                        <div class="pdf-upload" onclick="document.getElementById('pdf-input').click()">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">
+                                CLICK TO UPLOAD YOUR PORTFOLIO.PDF<br>
+                                <small style="color: #666; margin-top: 10px; display: block;">
+                                    Select any PDF file to preview
+                                </small>
+                            </div>
+                            <input type="file" id="pdf-input" accept=".pdf" onchange="handleFileSelect(event)">
+                        </div>
+                        
+                        <p style="margin-top: 30px; font-size: 0.8rem; color: #999;">
+                            Or place 'portfolio.pdf' in the same folder as this HTML file
+                        </p>
+                    </div>
+                </div>
+                <div class="page" id="right-page">
+                    <div class="mock-page">
+                        <h2>INSTRUCTIONS</h2>
+                        <div style="text-align: left; max-width: 400px;">
+                            <p style="margin-bottom: 20px;"><strong>To load your portfolio:</strong></p>
+                            <ol style="color: #666; line-height: 2;">
+                                <li>Click the upload area on the left</li>
+                                <li>Select your PDF file</li>
+                                <li>Use navigation buttons below</li>
+                            </ol>
+                            <p style="margin-top: 30px;"><strong>Keyboard shortcuts:</strong></p>
+                            <ul style="list-style: none; color: #666; line-height: 2;">
+                                <li>← → Arrow keys to navigate</li>
+                                <li>+ / - to zoom</li>
+                                <li>F for fullscreen</li>
+                                <li>Home/End for first/last page</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Navigation -->
             <div class="navigation-bar">
-                <button class="nav-btn" id="first-btn" onclick="goToFirstPage()">First</button>
-                <button class="nav-btn" id="prev-btn" onclick="previousPage()">Previous</button>
-                <button class="nav-btn" id="next-btn" onclick="nextPage()">Next</button>
-                <button class="nav-btn" id="last-btn" onclick="goToLastPage()">Last</button>
+                <button class="nav-btn" id="first-btn" onclick="alert('Upload a PDF to navigate')">First</button>
+                <button class="nav-btn" id="prev-btn" onclick="alert('Upload a PDF to navigate')">Previous</button>
+                <button class="nav-btn" id="next-btn" onclick="alert('Upload a PDF to navigate')">Next</button>
+                <button class="nav-btn" id="last-btn" onclick="alert('Upload a PDF to navigate')">Last</button>
             </div>
-
-            <!-- Fullscreen Button -->
-            <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
         </div>
     </div>
 
@@ -685,15 +657,86 @@
         let currentPage = 1;
         let totalPages = 0;
         let zoomLevel = 1.0;
-        let isTransitioning = false;
         const maxZoom = 2.5;
         const minZoom = 0.7;
 
         // Configure PDF.js
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // PDF URL Configuration - ensure this matches your actual file name
-        const PDF_URL = 'portfolio.pdf'; // Updated to match your file name exactly
+        // Try to load portfolio.pdf automatically
+        window.addEventListener('DOMContentLoaded', function() {
+            // Try to load portfolio.pdf if it exists
+            tryLoadDefaultPDF();
+        });
+
+        function tryLoadDefaultPDF() {
+            const defaultPDFUrl = 'portfolio.pdf';
+            
+            // Try to fetch the default PDF
+            fetch(defaultPDFUrl)
+                .then(response => {
+                    if (response.ok) {
+                        loadPDF(defaultPDFUrl);
+                    }
+                })
+                .catch(error => {
+                    console.log('Default portfolio.pdf not found. Please upload a PDF file.');
+                });
+        }
+
+        // Handle file upload
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                const fileURL = URL.createObjectURL(file);
+                loadPDF(fileURL);
+            } else {
+                alert('Please select a valid PDF file');
+            }
+        }
+
+        // Load PDF function
+        async function loadPDF(url) {
+            // Show loading screen
+            document.getElementById('loading-screen').style.display = 'flex';
+            document.getElementById('portfolio-container').style.display = 'none';
+            updateProgress(0);
+
+            try {
+                const loadingTask = pdfjsLib.getDocument(url);
+                
+                loadingTask.onProgress = function(progress) {
+                    const percent = (progress.loaded / progress.total) * 100;
+                    updateProgress(percent);
+                };
+
+                pdfDoc = await loadingTask.promise;
+                totalPages = pdfDoc.numPages;
+                
+                updateProgress(100);
+                
+                // Setup navigation
+                setupNavigation();
+                
+                // Render first pages
+                currentPage = 1;
+                await renderPages();
+                updatePageInfo();
+                updateNavigation();
+                
+                // Hide loading screen
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('portfolio-container').style.display = 'block';
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF. Please try another file.');
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('portfolio-container').style.display = 'block';
+            }
+        }
 
         // Update progress bar
         function updateProgress(percent) {
@@ -705,143 +748,40 @@
             }
         }
 
-        // Initialize on load
-        window.addEventListener('DOMContentLoaded', function() {
-            // Start loading immediately
-            loadPortfolioPdf();
-        });
-
-        async function loadPortfolioPdf() {
-            try {
-                updateProgress(10);
-                
-                // Create loading task with progress callback
-                const loadingTask = pdfjsLib.getDocument({
-                    url: PDF_URL,
-                    onProgress: function(progressData) {
-                        if (progressData.total > 0) {
-                            const percent = (progressData.loaded / progressData.total) * 80 + 10;
-                            updateProgress(percent);
-                        }
-                    }
-                });
-                
-                updateProgress(30);
-                
-                pdfDoc = await loadingTask.promise;
-                totalPages = pdfDoc.numPages;
-                
-                updateProgress(90);
-                
-                // Initialize first page
-                currentPage = 1;
-                await renderPages();
-                
-                updateProgress(100);
-                
-                // Hide loading screen after progress completes
-                setTimeout(() => {
-                    document.getElementById('loading-screen').classList.add('loaded');
-                    setTimeout(() => {
-                        document.getElementById('loading-screen').style.display = 'none';
-                        document.getElementById('portfolio-container').style.display = 'block';
-                    }, 1000);
-                }, 500);
-                
-                updatePageInfo();
-                updateNavigation();
-                
-            } catch (error) {
-                console.error('Failed to load PDF:', error);
-                showError(error);
-            }
+        // Setup navigation buttons
+        function setupNavigation() {
+            document.getElementById('first-btn').onclick = goToFirstPage;
+            document.getElementById('prev-btn').onclick = previousPage;
+            document.getElementById('next-btn').onclick = nextPage;
+            document.getElementById('last-btn').onclick = goToLastPage;
         }
 
-        function showError(error) {
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.innerHTML = `
-                <div class="error-state">
-                    <h3>PORTFOLIO LOADING ERROR</h3>
-                    <p>Unable to load "portfolio.pdf"</p>
-                    <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-gray);">
-                        Please ensure the file "portfolio.pdf" is in the same directory as this HTML file.
-                    </p>
-                    <p style="margin-top: 10px; font-size: 0.8rem; color: #666;">
-                        Error details: ${error.message || 'File not found'}
-                    </p>
-                    <button onclick="location.reload()" style="
-                        margin-top: 30px;
-                        padding: 12px 30px;
-                        background: var(--accent-gold);
-                        color: var(--primary-dark);
-                        border: none;
-                        font-family: 'Montserrat', sans-serif;
-                        font-weight: 500;
-                        letter-spacing: 1px;
-                        cursor: pointer;
-                        text-transform: uppercase;
-                    ">Retry</button>
-                </div>
-            `;
-        }
-
+        // Render pages
         async function renderPages() {
             const leftPage = document.getElementById('left-page');
             const rightPage = document.getElementById('right-page');
             
-            // Add turning animation
-            leftPage.classList.add('turning');
-            rightPage.classList.add('turning');
+            leftPage.innerHTML = '';
+            rightPage.innerHTML = '';
             
-            setTimeout(async () => {
-                leftPage.innerHTML = '';
-                rightPage.innerHTML = '';
-                
-                // Render left page
-                if (currentPage <= totalPages) {
-                    const leftCanvas = await renderPage(currentPage);
-                    if (leftCanvas) {
-                        leftCanvas.style.setProperty('--zoom-level', zoomLevel);
-                        leftPage.appendChild(leftCanvas);
-                        
-                        // Add click to zoom functionality
-                        leftCanvas.addEventListener('click', function() {
-                            if (this.classList.contains('zoomed')) {
-                                this.classList.remove('zoomed');
-                                this.style.transform = '';
-                            } else {
-                                this.classList.add('zoomed');
-                                this.style.transform = `scale(${zoomLevel * 1.5})`;
-                            }
-                        });
-                    }
+            // Render left page
+            if (currentPage <= totalPages) {
+                const leftCanvas = await renderPage(currentPage);
+                if (leftCanvas) {
+                    leftPage.appendChild(leftCanvas);
                 }
-                
-                // Render right page
-                if (currentPage + 1 <= totalPages) {
-                    const rightCanvas = await renderPage(currentPage + 1);
-                    if (rightCanvas) {
-                        rightCanvas.style.setProperty('--zoom-level', zoomLevel);
-                        rightPage.appendChild(rightCanvas);
-                        
-                        // Add click to zoom functionality
-                        rightCanvas.addEventListener('click', function() {
-                            if (this.classList.contains('zoomed')) {
-                                this.classList.remove('zoomed');
-                                this.style.transform = '';
-                            } else {
-                                this.classList.add('zoomed');
-                                this.style.transform = `scale(${zoomLevel * 1.5})`;
-                            }
-                        });
-                    }
+            }
+            
+            // Render right page
+            if (currentPage + 1 <= totalPages) {
+                const rightCanvas = await renderPage(currentPage + 1);
+                if (rightCanvas) {
+                    rightPage.appendChild(rightCanvas);
                 }
-                
-                leftPage.classList.remove('turning');
-                rightPage.classList.remove('turning');
-            }, 400);
+            }
         }
 
+        // Render single page
         async function renderPage(pageNum) {
             try {
                 const page = await pdfDoc.getPage(pageNum);
@@ -851,6 +791,9 @@
                 const viewport = page.getViewport({ scale: zoomLevel * 1.5 });
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
+                canvas.style.maxWidth = '100%';
+                canvas.style.height = 'auto';
+                canvas.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)';
                 
                 const renderContext = {
                     canvasContext: ctx,
@@ -860,125 +803,80 @@
                 await page.render(renderContext).promise;
                 return canvas;
             } catch (error) {
-                console.error('Failed to render page:', error);
+                console.error('Error rendering page:', error);
                 return null;
             }
         }
 
-        function animatePageTransition(callback) {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            
-            const overlay = document.getElementById('transition-overlay');
-            overlay.classList.add('active');
-            
-            setTimeout(() => {
-                callback();
-                setTimeout(() => {
-                    overlay.classList.remove('active');
-                    isTransitioning = false;
-                }, 500);
-            }, 250);
-        }
-
+        // Navigation functions
         function nextPage() {
-            if (currentPage + 2 <= totalPages && !isTransitioning) {
-                animatePageTransition(() => {
-                    currentPage += 2;
-                    renderPages();
-                    updatePageInfo();
-                    updateNavigation();
-                });
+            if (pdfDoc && currentPage + 2 <= totalPages) {
+                currentPage += 2;
+                renderPages();
+                updatePageInfo();
+                updateNavigation();
             }
         }
 
         function previousPage() {
-            if (currentPage > 1 && !isTransitioning) {
-                animatePageTransition(() => {
-                    currentPage = Math.max(1, currentPage - 2);
-                    renderPages();
-                    updatePageInfo();
-                    updateNavigation();
-                });
+            if (pdfDoc && currentPage > 1) {
+                currentPage = Math.max(1, currentPage - 2);
+                renderPages();
+                updatePageInfo();
+                updateNavigation();
             }
         }
 
         function goToFirstPage() {
-            if (currentPage !== 1 && !isTransitioning) {
-                animatePageTransition(() => {
-                    currentPage = 1;
-                    renderPages();
-                    updatePageInfo();
-                    updateNavigation();
-                });
+            if (pdfDoc && currentPage !== 1) {
+                currentPage = 1;
+                renderPages();
+                updatePageInfo();
+                updateNavigation();
             }
         }
 
         function goToLastPage() {
-            const lastPagePair = totalPages % 2 === 0 ? totalPages - 1 : totalPages;
-            if (currentPage !== lastPagePair && !isTransitioning) {
-                animatePageTransition(() => {
+            if (pdfDoc) {
+                const lastPagePair = totalPages % 2 === 0 ? totalPages - 1 : totalPages;
+                if (currentPage !== lastPagePair) {
                     currentPage = lastPagePair;
                     renderPages();
                     updatePageInfo();
                     updateNavigation();
-                });
+                }
             }
         }
 
+        // Update page info
         function updatePageInfo() {
             const indicator = document.getElementById('page-indicator');
-            const leftNum = currentPage.toString().padStart(2, '0');
-            const rightNum = Math.min(currentPage + 1, totalPages).toString().padStart(2, '0');
-            const total = totalPages.toString().padStart(2, '0');
-            
-            if (currentPage === totalPages) {
-                indicator.textContent = `PAGE ${leftNum} / ${total}`;
-            } else {
-                indicator.textContent = `PAGES ${leftNum}-${rightNum} / ${total}`;
+            if (pdfDoc) {
+                const leftNum = currentPage.toString().padStart(2, '0');
+                const rightNum = Math.min(currentPage + 1, totalPages).toString().padStart(2, '0');
+                const total = totalPages.toString().padStart(2, '0');
+                
+                if (currentPage === totalPages) {
+                    indicator.textContent = `PAGE ${leftNum} / ${total}`;
+                } else {
+                    indicator.textContent = `PAGES ${leftNum}-${rightNum} / ${total}`;
+                }
             }
         }
 
+        // Update navigation buttons
         function updateNavigation() {
-            document.getElementById('prev-btn').disabled = currentPage <= 1;
-            document.getElementById('first-btn').disabled = currentPage <= 1;
-            document.getElementById('next-btn').disabled = currentPage + 1 >= totalPages;
-            document.getElementById('last-btn').disabled = currentPage + 1 >= totalPages;
-        }
-
-        function zoomIn() {
-            if (zoomLevel < maxZoom) {
-                zoomLevel = Math.min(maxZoom, zoomLevel + 0.2);
-                renderPages();
+            if (pdfDoc) {
+                document.getElementById('prev-btn').disabled = currentPage <= 1;
+                document.getElementById('first-btn').disabled = currentPage <= 1;
+                document.getElementById('next-btn').disabled = currentPage + 1 >= totalPages;
+                document.getElementById('last-btn').disabled = currentPage + 1 >= totalPages;
             }
         }
 
-        function zoomOut() {
-            if (zoomLevel > minZoom) {
-                zoomLevel = Math.max(minZoom, zoomLevel - 0.2);
-                renderPages();
-            }
-        }
-
-        function resetZoom() {
-            zoomLevel = 1.0;
-            renderPages();
-        }
-
-        function toggleFullscreen() {
-            const container = document.getElementById('portfolio-container');
-            if (!document.fullscreenElement) {
-                container.requestFullscreen().catch(err => {
-                    console.error('Unable to enter fullscreen:', err);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        // Enhanced Keyboard Navigation
+        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
-            if (pdfDoc && !isTransitioning) {
+            if (pdfDoc) {
                 switch(e.key) {
                     case 'ArrowLeft':
                         e.preventDefault();
@@ -996,27 +894,9 @@
                         e.preventDefault();
                         goToLastPage();
                         break;
-                    case '+':
-                    case '=':
-                        e.preventDefault();
-                        zoomIn();
-                        break;
-                    case '-':
-                    case '_':
-                        e.preventDefault();
-                        zoomOut();
-                        break;
-                    case '0':
-                        e.preventDefault();
-                        resetZoom();
-                        break;
-                    case 'f':
-                    case 'F':
-                        e.preventDefault();
-                        toggleFullscreen();
-                        break;
-                    case 'Escape':
-                        if (document.fullscreenElement) {
-                            document.exitFullscreen();
-                        }
-                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
