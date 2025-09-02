@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifan Zhao - Portfolio</title>
+    <meta name="description" content="Lifan Zhao's selected works and professional portfolio 2021-2025">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 48, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(255, 20, 147, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 10% 10%, rgba(138, 43, 226, 0.5) 0%, transparent 50%),
+                linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-size: 
+                800px 800px,
+                600px 600px,
+                400px 400px,
+                500px 500px,
+                700px 700px,
+                100% 100%;
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% {
+                background-position: 
+                    0% 0%,
+                    100% 100%,
+                    50% 50%,
+                    80% 20%,
+                    20% 80%,
+                    0% 0%;
+            }
+            25% {
+                background-position: 
+                    10% 10%,
+                    90% 80%,
+                    60% 40%,
+                    70% 30%,
+                    30% 70%,
+                    0% 0%;
+            }
+            50% {
+                background-position: 
+                    20% 20%,
+                    80% 60%,
+                    70% 30%,
+                    60% 40%,
+                    40% 60%,
+                    0% 0%;
+            }
+            75% {
+                background-position: 
+                    30% 10%,
+                    70% 90%,
+                    40% 60%,
+                    90% 10%,
+                    10% 90%,
+                    0% 0%;
+            }
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(0,0,0,0.15);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #FFFFFF;
+            text-shadow: 
+                0 0 20px rgba(255,255,255,0.5),
+                0 4px 20px rgba(0,0,0,0.8);
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease-out;
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-family: 'Arial Black', 'Helvetica', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 1.4rem;
+            color: #F0F0F0;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            font-style: italic;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .book-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 20px;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .book-viewer {
+            background: rgba(255,255,255,0.98);
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            overflow: hidden;
+            position: relative;
+            border: 3px solid rgba(255,255,255,0.9);
+            box-shadow: 
+                0 30px 100px rgba(0,0,0,0.4),
+                inset 0 0 0 1px rgba(255,255,255,1),
+                0 0 0 1px rgba(255,255,255,0.8),
+                0 0 50px rgba(120, 119, 198, 0.3);
+        }
+
+        .book-header {
+            background: linear-gradient(135deg, #34495E, #2C3E50);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .book-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: 'Arial Black', 'Helvetica', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .book-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .page-info {
+            background: rgba(255,255,255,0.15);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .control-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .book-content {
+            height: 85vh;
+            display: flex;
+            position: relative;
+            background: #F8F9FA;
+        }
+
+        .page {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border-right: 2px solid #E8E8E8;
+        }
+
+        .page:last-child {
+            border-right: none;
+        }
+
+        .page canvas {
+            max-width: 95%;
+            max-height: 95%;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .page canvas:hover {
+            transform: scale(1.02);
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            background: rgba(44,62,80,0.95);
+            padding: 20px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #3498DB, #2980B9);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(52,152,219,0.4);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: block;
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+        }
+
+        .loading-text {
+            font-size: 1.3rem;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .loading-subtext {
+            font-size: 1rem;
+            color: #F0F0F0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .zoom-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .zoom-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .fullscreen-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .fullscreen-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .page-transition {
+            animation: pageFlip 0.6s ease-in-out;
+        }
+
+        .error-message {
+            background: rgba(231,76,60,0.1);
+            border: 1px solid #E74C3C;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            color: #E74C3C;
+            text-align: center;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pageFlip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .book-content {
+                height: 70vh;
+                flex-direction: column;
+            }
+            
+            .page {
+                border-right: none;
+                border-bottom: 2px solid #E8E8E8;
+            }
+            
+            .page:last-child {
+                border-bottom: none;
+            }
+            
+            .navigation {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                transform: none;
+                margin-top: 30px;
+                justify-content: center;
+                padding: 15px 20px;
+            }
+            
+            .nav-button {
+                padding: 12px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .book-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .book-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>LIFAN ZHAO</h1>
+        <p>Selected Works 2021-2025</p>
+    </header>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Portfolio...</div>
+        <div class="loading-subtext">Please wait while we prepare your professional portfolio</div>
+    </div>
+
+    <div class="book-container" id="book-container" style="display: none;">
+        <div class="book-viewer">
+            <div class="book-header">
+                <div class="book-title" id="book-title">LIFAN ZHAO - PORTFOLIO</div>
+                <div class="book-controls">
+                    <div class="page-info" id="page-info">Page 1 / 0</div>
+                    <div class="zoom-controls">
+                        <button class="zoom-button" onclick="zoomOut()">Zoom Out</button>
+                        <button class="zoom-button" onclick="resetZoom()">Reset</button>
+                        <button class="zoom-button" onclick="zoomIn()">Zoom In</button>
+                    </div>
+                    <button class="fullscreen-button" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+                </div>
+            </div>
+            
+            <div class="book-content" id="book-content">
+                <div class="page" id="left-page">
+                    <!-- Left page content -->
+                </div>
+                <div class="page" id="right-page">
+                    <!-- Right page content -->
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-button" id="prev-button" onclick="previousPage()">
+                    ← Previous
+                </button>
+                <button class="nav-button" onclick="goToFirstPage()">
+                    First
+                </button>
+                <button class="nav-button" onclick="goToLastPage()">
+                    Last
+                </button>
+                <button class="nav-button" id="next-button" onclick="nextPage()">
+                    Next →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        let pdfDoc = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let zoomLevel = 1.0;
+        const maxZoom = 3.0;
+        const minZoom = 0.5;
+
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // 🔧 PORTFOLIO CONFIGURATION
+        // Replace 'portfolio.pdf' with your actual PDF filename in the repository
+        const PDF_URL = './portfolio.pdf';
+
+        // Auto-load PDF on page load
+        window.addEventListener('load', function() {
+            loadPortfolioPdf();
+        });
+
+        async function loadPortfolioPdf() {
+            try {
+                const loadingTask = pdfjsLib.getDocument(PDF_URL);
+                pdfDoc = await loadingTask.promise;
+                totalPages = pdfDoc.numPages;
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('book-container').style.display = 'block';
+                
+                currentPage = 1;
+                await renderPages();
+                updatePageInfo();
+                updateNavigation();
+            } catch (error) {
+                console.error('Failed to load PDF:', error);
+                showError();
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').innerHTML = `
+                <div class="error-message">
+                    <h3>📄 Portfolio Loading</h3>
+                    <p>Please ensure 'portfolio.pdf' is uploaded to this repository.</p>
+                    <p><strong>For Recruiters:</strong> If you're seeing this message, the portfolio is still being set up. Please contact me directly for access.</p>
+                </div>
+            `;
+        }
+
+        async function renderPages() {
+            const leftPage = document.getElementById('left-page');
+            const rightPage = document.getElementById('right-page');
+            
+            // Clear pages
+            leftPage.innerHTML = '';
+            rightPage.innerHTML = '';
+            
+            // Render left page (odd pages)
+            if (currentPage <= totalPages) {
+                const leftCanvas = await renderPage(currentPage);
+                if (leftCanvas) {
+                    leftPage.appendChild(leftCanvas);
+                }
+            }
+            
+            // Render right page (even pages)
+            if (currentPage + 1 <= totalPages) {
+                const rightCanvas = await renderPage(currentPage + 1);
+                if (rightCanvas) {
+                    rightPage.appendChild(rightCanvas);
+                }
+            }
+        }
+
+        async function renderPage(pageNum) {
+            try {
+                const page = await pdfDoc.getPage(pageNum);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const viewport = page.getViewport({ scale: zoomLevel });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                await page.render(renderContext).promise;
+                return canvas;
+            } catch (error) {
+                console.error('Failed to render page:', error);
+                return null;
+            }
+        }
+
+        function nextPage() {
+            if (currentPage + 2 <= totalPages) {
+                currentPage += 2;
+                document.getElementById('book-content').classList.add('page-transition');
+                setTimeout(() => {
+                    renderPages();
+                    updatePageInfo();
+                    updateNavigation();
+                    document.getElementById('book-content').classList.remove('page-transition');
+                }, 300);
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage = Math.max(1, currentPage - 2);
+                document.getElementById('book-content').classList.add('page-transition');
+                setTimeout(() => {
+                    renderPages();
+                    updatePageInfo();
+                    updateNavigation();
+                    document.getElementById('book-content').classList.remove('page-transition');
+                }, 300);
+            }
+        }
+
+        function goToFirstPage() {
+            if (currentPage !== 1) {
+                currentPage = 1;
+                renderPages();
+                updatePageInfo();
+                updateNavigation();
+            }
+        }
+
+        function goToLastPage() {
+            const lastPagePair = totalPages % 2 === 0 ? totalPages - 1 : totalPages;
+            if (currentPage !== lastPagePair) {
+                currentPage = lastPagePair;
+                renderPages();
+                updatePageInfo();
+                updateNavigation();
+            }
+        }
+
+        function updatePageInfo() {
+            const pageInfo = document.getElementById('page-info');
+            const endPage = Math.min(currentPage + 1, totalPages);
+            if (currentPage === endPage) {
+                pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+            } else {
+                pageInfo.textContent = `Pages ${currentPage}-${endPage} / ${totalPages}`;
+            }
+        }
+
+        function updateNavigation() {
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            
+            prevButton.disabled = currentPage <= 1;
+            nextButton.disabled = currentPage + 1 >= totalPages;
+        }
+
+        function zoomIn() {
+            if (zoomLevel < maxZoom) {
+                zoomLevel = Math.min(maxZoom, zoomLevel + 0.25);
+                renderPages();
+            }
+        }
+
+        function zoomOut() {
+            if (zoomLevel > minZoom) {
+                zoomLevel = Math.max(minZoom, zoomLevel - 0.25);
+                renderPages();
+            }
+        }
+
+        function resetZoom() {
+            zoomLevel = 1.0;
+            renderPages();
+        }
+
+        function toggleFullscreen() {
+            const bookContainer = document.getElementById('book-container');
+            if (!document.fullscreenElement) {
+                bookContainer.requestFullscreen().catch(err => {
+                    console.error('Unable to enter fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (pdfDoc) {
+                switch(e.key) {
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        previousPage();
+                        break;
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        nextPage();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        goToFirstPage();
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        goToLastPage();
+                        break;
+                    case 'Escape':
+                        if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                        }
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
