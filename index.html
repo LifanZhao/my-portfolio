@@ -167,6 +167,32 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
+        /* Progress Bar */
+        .progress-container {
+            width: 300px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-gold);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-gold);
+        }
+
+        .progress-text {
+            margin-top: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            letter-spacing: 2px;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
@@ -605,6 +631,10 @@
     <div class="loading-screen" id="loading-screen">
         <div class="architect-loader"></div>
         <div class="loading-text">LOADING PORTFOLIO</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-text" id="progress-text">0%</div>
     </div>
 
     <!-- Header -->
@@ -662,46 +692,95 @@
         // Configure PDF.js
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // PDF URL Configuration
-        const PDF_URL = './portfolio.pdf';
+        // PDF URL Configuration - ensure this matches your actual file name
+        const PDF_URL = 'portfolio.pdf'; // Updated to match your file name exactly
+
+        // Update progress bar
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            if (progressBar && progressText) {
+                progressBar.style.width = percent + '%';
+                progressText.textContent = Math.round(percent) + '%';
+            }
+        }
 
         // Initialize on load
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                loadPortfolioPdf();
-            }, 1500); // Minimum loading screen time for effect
+        window.addEventListener('DOMContentLoaded', function() {
+            // Start loading immediately
+            loadPortfolioPdf();
         });
 
         async function loadPortfolioPdf() {
             try {
-                const loadingTask = pdfjsLib.getDocument(PDF_URL);
+                updateProgress(10);
+                
+                // Create loading task with progress callback
+                const loadingTask = pdfjsLib.getDocument({
+                    url: PDF_URL,
+                    onProgress: function(progressData) {
+                        if (progressData.total > 0) {
+                            const percent = (progressData.loaded / progressData.total) * 80 + 10;
+                            updateProgress(percent);
+                        }
+                    }
+                });
+                
+                updateProgress(30);
+                
                 pdfDoc = await loadingTask.promise;
                 totalPages = pdfDoc.numPages;
                 
-                // Hide loading, show portfolio
-                document.getElementById('loading-screen').classList.add('loaded');
-                setTimeout(() => {
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('portfolio-container').style.display = 'block';
-                }, 1000);
+                updateProgress(90);
                 
+                // Initialize first page
                 currentPage = 1;
                 await renderPages();
+                
+                updateProgress(100);
+                
+                // Hide loading screen after progress completes
+                setTimeout(() => {
+                    document.getElementById('loading-screen').classList.add('loaded');
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.display = 'none';
+                        document.getElementById('portfolio-container').style.display = 'block';
+                    }, 1000);
+                }, 500);
+                
                 updatePageInfo();
                 updateNavigation();
+                
             } catch (error) {
                 console.error('Failed to load PDF:', error);
-                showError();
+                showError(error);
             }
         }
 
-        function showError() {
-            document.getElementById('loading-screen').innerHTML = `
+        function showError(error) {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.innerHTML = `
                 <div class="error-state">
-                    <h3>PORTFOLIO UNAVAILABLE</h3>
-                    <p>The portfolio file is currently being prepared.</p>
-                    <p>Please ensure 'portfolio.pdf' is uploaded to the repository.</p>
-                    <p style="margin-top: 20px; color: var(--accent-gold);">For immediate access, please contact directly.</p>
+                    <h3>PORTFOLIO LOADING ERROR</h3>
+                    <p>Unable to load "portfolio.pdf"</p>
+                    <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-gray);">
+                        Please ensure the file "portfolio.pdf" is in the same directory as this HTML file.
+                    </p>
+                    <p style="margin-top: 10px; font-size: 0.8rem; color: #666;">
+                        Error details: ${error.message || 'File not found'}
+                    </p>
+                    <button onclick="location.reload()" style="
+                        margin-top: 30px;
+                        padding: 12px 30px;
+                        background: var(--accent-gold);
+                        color: var(--primary-dark);
+                        border: none;
+                        font-family: 'Montserrat', sans-serif;
+                        font-weight: 500;
+                        letter-spacing: 1px;
+                        cursor: pointer;
+                        text-transform: uppercase;
+                    ">Retry</button>
                 </div>
             `;
         }
@@ -937,4 +1016,7 @@
                         toggleFullscreen();
                         break;
                     case 'Escape':
-                        if (document.full
+                        if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                        }
+                        break;
